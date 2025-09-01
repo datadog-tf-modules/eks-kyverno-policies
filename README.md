@@ -8,7 +8,7 @@ Think of it as **Kubernetes' security + compliance enforcer**.
 ---
 
 ## 📂 Repository Structure
-
+```
 eks-kyverno-policies/
 ├── charts/
 │ └── kyverno/
@@ -22,3 +22,4 @@ eks-kyverno-policies/
 ├── scripts/
 │ └── helm-install.sh # Script to install Kyverno via Helm
 └── README.md # Documentation (this file)
+```
