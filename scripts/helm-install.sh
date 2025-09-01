@@ -1,14 +1,18 @@
-#!/usr/bin/env bash
-# Helm install script for Kyverno (production example)
-# Usage: edit kyverno-values.yaml then run: ./helm-install.sh
+#!/bin/bash
+set -e
 
-set -euo pipefail
+NAMESPACE="kyverno"
 
-# Add kyverno repo and update
+echo ">>> Creating namespace: $NAMESPACE"
+kubectl create namespace $NAMESPACE --dry-run=client -o yaml | kubectl apply -f -
+
+echo ">>> Adding Kyverno Helm repo"
 helm repo add kyverno https://kyverno.github.io/kyverno/
 helm repo update
 
-# Install Kyverno into the 'kyverno' namespace using the example values file
+echo ">>> Installing Kyverno"
 helm upgrade --install kyverno kyverno/kyverno \
-  --namespace kyverno --create-namespace \
-  -f kyverno-values.yaml
+  --namespace $NAMESPACE \
+  -f charts/kyverno/kyverno-values.yaml
+
+echo ">>> Kyverno installation complete!"
