@@ -1,0 +1,15 @@
+name: kyverno-lint
+on: [pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate YAML
+        run: |
+          find policies -name '*.yaml' -print0 | xargs -0 -n1 yamllint -c /dev/null || true
+      # Placeholder: run kyverno CLI tests (install or run container)
+      - name: Run kyverno test (placeholder)
+        run: |
+          echo "Run kyverno tests locally or via container here"
