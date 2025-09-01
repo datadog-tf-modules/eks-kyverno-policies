@@ -1,0 +1,32 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: add-default-labels-and-resources
+spec:
+  background: true
+  rules:
+  - name: add-managed-by-label
+    match:
+      resources:
+        kinds:
+        - Pod
+        - Deployment
+    mutate:
+      patchStrategicMerge:
+        metadata:
+          labels:
+            managed-by: kyverno
+  - name: add-default-resource-requests
+    match:
+      resources:
+        kinds:
+        - Pod
+        - Deployment
+    mutate:
+      foreach:
+      - list: "request.object.spec.containers"
+        patchStrategicMerge:
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"

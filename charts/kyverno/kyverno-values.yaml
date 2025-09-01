@@ -1,0 +1,28 @@
+# kyverno-values.yaml - recommended production overrides (example)
+replicaCount: 3
+
+# Basic resource requests/limits for Kyverno pods (tune for your cluster)
+resources:
+  requests:
+    cpu: "200m"
+    memory: "256Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+# Optional: if you use IRSA, set an annotation on the service account (replace placeholders)
+serviceAccount:
+  create: true
+  annotations:
+    # replace <ACCOUNT_ID> and <KYVERNO_IRSA_ROLE> if using IRSA
+    eks.amazonaws.com/role-arn: "arn:aws:iam::<ACCOUNT_ID>:role/<KYVERNO_IRSA_ROLE>"
+
+# Webhook tuning
+webhook:
+  timeoutSeconds: 30
+
+# Other production-friendly options you may want to set via the chart values:
+# - podDisruptionBudget.enabled: true
+# - affinity: for anti-affinity (spread Kyverno pods across nodes)
+# - tolerations: if running on dedicated infra nodes
+# See the official Helm chart values for the complete list.
